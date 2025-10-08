@@ -1,28 +1,33 @@
-Gibbs Ion Transport (GibbsIT)
+# Gibbs Ion Transport (GibbsIT)
 
-GibbsIT is a Python class that models the Gibbs free energy change (ΔG) for ion transport across biological membranes.
+**GibbsIT** is a Python class that models the Gibbs free energy change (ΔG) for ion transport across biological membranes.  
 It implements the thermodynamic relationship:
 
+\[
 \Delta G = RT \ln\left(\frac{C_2}{C_1}\right) + zF\Delta\psi
+\]
 
 The class provides unit-safe calculations and Pythonic comparison tools for analyzing the energetic favorability of ion movements such as Na⁺ influx or Ca²⁺ efflux in biological systems.
 
-⸻
+---
 
-🔍 Features
-	•	Calculates ΔG for ion transport events using the Nernst equation form
-	•	Accepts either SI units (M, V, K) or lab-friendly units (mM, mV, °C) via an alternate constructor
-	•	Built-in validation checks for realistic physiological values
-	•	Operator overloading:
-	•	__lt__ → Compare ΔG values (<, >)
-	•	__eq__ → Check energetic equivalence
-	•	__add__ → Combine ΔG values for multiple ion events
-	•	Designed for readability and educational use
-	•	Easily extended for batch analyses or plotting
+## Features
 
-⸻
+- Calculates ΔG for ion transport events using the Nernst equation form  
+- Accepts either **SI units (M, V, K)** or **lab-friendly units (mM, mV, °C)** via an alternate constructor  
+- Built-in validation checks for realistic physiological values  
+- Operator overloading:
+  - `__lt__` → Compare ΔG values (`<`, `>`)
+  - `__eq__` → Check energetic equivalence
+  - `__add__` → Combine ΔG values for multiple ion events
+- Designed for readability and educational use  
+- Easily extended for batch analyses or plotting
 
-Example Usage
+---
+
+## Example Usage
+
+```python
 from gibbs_it import GibbsIT
 
 # Using SI units directly
@@ -58,6 +63,8 @@ net_energy = ca_in + na_in
 print(f"Combined ΔG = {net_energy:.2f} kJ/mol")
 
 Installation
+
+Clone the repository:
 git clone https://github.com/rauljgarcia/GibbsIT.git
 cd GibbsIT
 
@@ -77,7 +84,7 @@ Such calculations are essential for understanding energy requirements in systems
 
 ⸻
 
-🚀 Future Enhancements
+Future Enhancements
 	•	Add support for batch calculations using lists or Pandas DataFrames
 	•	Include a plotting module to visualize ΔG vs. ion gradient
 	•	Implement a command-line interface (CLI)
@@ -92,4 +99,4 @@ Raul Garcia
 Bioinformatics student at the University of Arizona
 Exploring the intersection of programming, biochemistry, and computational modeling.
 
-🔗 GitHub Profile
+GitHub Profile
