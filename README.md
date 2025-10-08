@@ -61,7 +61,7 @@ if ca_in < na_in:
     print("Ca influx is more energetically favorable")
 net_energy = ca_in + na_in
 print(f"Combined ΔG = {net_energy:.2f} kJ/mol")
-
+```
 Installation
 
 Clone the repository:
