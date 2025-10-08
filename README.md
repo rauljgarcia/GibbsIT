@@ -99,4 +99,4 @@ Raul Garcia
 Bioinformatics student at the University of Arizona
 Exploring the intersection of programming, biochemistry, and computational modeling.
 
-GitHub Profile
+[GitHub Profile](https://github.com/rauljgarcia)
