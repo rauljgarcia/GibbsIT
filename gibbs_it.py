@@ -111,34 +111,3 @@ class GibbsIT:
         return (
             GibbsIT.R * self.T * math.log(self.c2 / self.c1) + self.z * self.F * self.Vm
         )
-
-
-def main():
-
-    na = GibbsIT.from_mM_mV(
-        name="Na influx",
-        ion="Na+",
-        c_origin_mM=145,
-        c_dest_mM=15,
-        z=1,
-        vm_mV=-70,
-        T="37C",
-    )
-    print(na)  # ΔG ≈ -12.6 kJ/mol
-
-    ca = GibbsIT.from_mM_mV(
-        name="Ca influx",
-        ion="Ca2+",
-        c_origin_mM=1.8,
-        c_dest_mM=0.0001,
-        z=2,
-        vm_mV=-70,
-        T=310,
-    )
-    print(ca)  # more negative than Na+, as expected
-
-    print(sum([na, ca], 0.0))  # uses __radd__, returns total ΔG as float
-
-
-if __name__ == "__main__":
-    main()
