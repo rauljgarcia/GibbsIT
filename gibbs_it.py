@@ -5,7 +5,7 @@ from typing import Union
 @functools.total_ordering
 class GibbsIT:
     """
-    ∆G = RTln(C2/C1)+zF∆psi
+    ∆G = RTln(C2/C1)+zFVm (Vm = membrane potential)
     This class models the Gibbs free energy change (∆G) for a single ion
     transport event across a biological membrane.
 
@@ -24,7 +24,7 @@ class GibbsIT:
         c_origin_M: float,
         c_dest_M: float,
         z: int,
-        delta_psi_V: float,
+        Vm: float,
         T_K: float = 310.0,
     ) -> None:
         self.name = name  # name of ion/transport type
@@ -32,15 +32,15 @@ class GibbsIT:
         self.c1 = c_origin_M  # ion concentration at origin (M)
         self.c2 = c_dest_M  # ion concentration at destination (M)
         self.z = z  # ion charge
-        self.delta_psi = delta_psi_V  # membrane potential (V)
+        self.Vm = Vm  # membrane potential (V)
         self.T = T_K  # temperature (K)
         self._validate()
 
     def _validate(self) -> None:
         if self.c1 <= 0 or self.c2 <= 0:
             raise ValueError("Concentrations must be > 0 (M).")
-        if not (-0.3 <= self.delta_psi <= 0.3):  # ±300 mV sanity
-            raise ValueError("delta_psi seems not in volts (expected ±0.3 V range).")
+        if not (-0.3 <= self.Vm <= 0.3):  # ±300 mV sanity
+            raise ValueError("Vm seems not in volts (expected ±0.3 V range).")
         if self.T <= 0:
             raise ValueError("Temperature must be in Kelvin (> 0).")
 
@@ -53,7 +53,7 @@ class GibbsIT:
         c_origin_mM: float,
         c_dest_mM: float,
         z: int,
-        delta_psi_mV: float,
+        vm_mV: float,
         T: Union[float, str] = 310,
     ) -> "GibbsIT":
         # Temperature parsing
@@ -74,7 +74,7 @@ class GibbsIT:
             z=z,
             c_origin_M=c_origin_mM / 1000.0,
             c_dest_M=c_dest_mM / 1000.0,
-            delta_psi_V=delta_psi_mV / 1000.0,
+            Vm=vm_mV / 1000.0,
             T_K=T_K,
         )
 
@@ -109,8 +109,7 @@ class GibbsIT:
 
     def calculate_delta_G(self) -> float:
         return (
-            GibbsIT.R * self.T * math.log(self.c2 / self.c1)
-            + self.z * self.F * self.delta_psi
+            GibbsIT.R * self.T * math.log(self.c2 / self.c1) + self.z * self.F * self.Vm
         )
 
 
@@ -122,7 +121,7 @@ def main():
         c_origin_mM=145,
         c_dest_mM=15,
         z=1,
-        delta_psi_mV=-70,
+        vm_mV=-70,
         T="37C",
     )
     print(na)  # ΔG ≈ -12.6 kJ/mol
@@ -133,7 +132,7 @@ def main():
         c_origin_mM=1.8,
         c_dest_mM=0.0001,
         z=2,
-        delta_psi_mV=-70,
+        vm_mV=-70,
         T=310,
     )
     print(ca)  # more negative than Na+, as expected
