@@ -3,9 +3,11 @@
 **GibbsIT** is a Python class that models the Gibbs free energy change (ΔG) for ion transport across biological membranes.  
 It implements the thermodynamic relationship:
 
+$$
 \[
 \Delta G = RT \ln\left(\frac{C_2}{C_1}\right) + zF\Delta\psi
 \]
+$$
 
 The class provides unit-safe calculations and Pythonic comparison tools for analyzing the energetic favorability of ion movements such as Na⁺ influx or Ca²⁺ efflux in biological systems.
 
