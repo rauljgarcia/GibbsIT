@@ -72,7 +72,7 @@ class GibbsIT:
             c_origin_M (float): Origin concentration in molar (M).
             c_dest_M (float): Destination concentration in molar (M).
             z (int): Ion charge (e.g., +1 for Na+, +2 for Ca²⁺).
-            Vm (float): Membrane potential in volts (V).
+            Vm (float): Membrane potential in volts (V), e.g. -0.070 for -70 mV
             T_K (float, optional): Temperature in Kelvin (default is 310 K).
         """
         self.name = name  # name of ion/transport type
@@ -80,7 +80,7 @@ class GibbsIT:
         self.c1 = c_origin_M  # ion concentration at origin (M)
         self.c2 = c_dest_M  # ion concentration at destination (M)
         self.z = z  # ion charge
-        self.Vm = Vm  # membrane potential (V)
+        self.Vm = Vm  # membrane potential stored internally in volts, V, e.g. -0.070 for -70 mV
         self.T = T_K  # temperature (K)
         self._validate()
 
@@ -229,3 +229,13 @@ class GibbsIT:
         return (
             GibbsIT.R * self.T * math.log(self.c2 / self.c1) + self.z * self.F * self.Vm
         )
+
+
+def main():
+
+    deltaG = GibbsIT(name="Glucose", ion="Glc", c_origin_M=5, c_dest_M=0.1, z=1, Vm=0)
+    print(deltaG)
+
+
+if __name__ == "__main__":
+    main()
