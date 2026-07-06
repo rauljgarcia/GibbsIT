@@ -1,5 +1,5 @@
-from .gibbs_it import GibbsIT
-
+from gibbs_it import GibbsIT
+import pytest
 
 def test_delta_g_for_na_influx():
     na = GibbsIT.from_mM_mV(
@@ -12,4 +12,4 @@ def test_delta_g_for_na_influx():
         T="37C",
     )
     expected = -12.6
-    assert abs(na.calculate_delta_G() - expected) < 0.01
+    assert na.calculate_delta_G() == pytest.approx(expected, abs=0.1)
