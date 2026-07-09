@@ -232,10 +232,28 @@ class GibbsIT:
 
 
 def main():
+    # Example 1: direct constructor using internal units
+    glucose = GibbsIT(
+        name="Glucose", 
+        ion="Glc", 
+        c_origin_M=5, 
+        c_dest_M=0.1, 
+        z=1, 
+        Vm=0)
+    
+    # Example 2: alternate constructor using some common biological unts
+    na = GibbsIT.from_mM_mV(
+    name="Na influx",
+    ion="Na+",
+    c_origin_mM=145,
+    c_dest_mM=15,
+    z=1,
+    vm_mV=-70,
+    T="37C",
+    )
 
-    deltaG = GibbsIT(name="Glucose", ion="Glc", c_origin_M=5, c_dest_M=0.1, z=1, Vm=0)
-    print(deltaG)
-
+    print(glucose)
+    print(na)
 
 if __name__ == "__main__":
     main()
