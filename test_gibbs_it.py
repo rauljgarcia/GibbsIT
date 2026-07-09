@@ -35,3 +35,16 @@ def test_from_mM_mV_for_conversion():
     assert na.c2 == pytest.approx(expected_dest)
     assert na.Vm == pytest.approx(expected_vm)
     assert na.T == pytest.approx(expected_T)
+
+def test_vm_outside_sanity_range_raises_error():
+    """Verify that unrealistically large positive membrane potential is rejected."""
+    with pytest.raises(ValueError):
+        GibbsIT(
+            name="Invalid Vm",
+            ion="Na+",
+            c_origin_M=0.145,
+            c_dest_M=0.015,
+            z=1,
+            Vm=0.500
+            )
+        
