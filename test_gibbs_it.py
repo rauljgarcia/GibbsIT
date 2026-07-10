@@ -45,7 +45,7 @@ def test_origin_concentration_must_be_positive():
             c_origin_M=-0.001,
             c_dest_M=0.015,
             z=1,
-            Vm=-70
+            Vm=-0.070
         )
 
 def test_destination_concentration_must_be_positive():
@@ -57,7 +57,7 @@ def test_destination_concentration_must_be_positive():
             c_origin_M=0.015,
             c_dest_M=-0.001,
             z=1,
-            Vm=-70
+            Vm=-0.070
         )
 
 def test_vm_outside_sanity_range_raises_error():
@@ -71,4 +71,16 @@ def test_vm_outside_sanity_range_raises_error():
             z=1,
             Vm=0.500
             )
-        
+
+def test_Kelvin_temperature_must_be_positive():
+    """Verify that a non-positive value for Kelvin is rejected."""
+    with pytest.raises(ValueError):
+        GibbsIT(
+            name="Invalid T",
+            ion="Na+",
+            c_origin_M=0.145,
+            c_dest_M=0.015,
+            z=1,
+            Vm=-0.070,
+            T_K=-37.0,
+        )
