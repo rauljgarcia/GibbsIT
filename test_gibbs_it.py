@@ -37,13 +37,25 @@ def test_from_mM_mV_for_conversion():
     assert na.T == pytest.approx(expected_T)
 
 def test_origin_concentration_must_be_positive():
-    """Verify that a non-positive value for origin ion concentration is rejected."""
+    """Verify that a non-positive value for origin concentration is rejected."""
     with pytest.raises(ValueError):
         GibbsIT(
             name="Invalid c",
             ion="Na+",
             c_origin_M=-0.001,
             c_dest_M=0.015,
+            z=1,
+            Vm=-70
+        )
+
+def test_destination_concentration_must_be_positive():
+    """Verify that a non-positive value for destination concentration is rejected."""
+    with pytest.raises(ValueError):
+        GibbsIT(
+            name="Invalid c",
+            ion="Na+",
+            c_origin_M=0.015,
+            c_dest_M=-0.001,
             z=1,
             Vm=-70
         )
