@@ -6,8 +6,8 @@ for ion transport across biological membranes.
 
 This module provides:
     - GibbsIT class with unit conversion and input validation
-    - Operator overloading for comparison and addition
-    - A convenient factory method for non-SI units
+    - Optional operator overloading for comparison and addition
+    - An alternate constructor for common biological units
 
 Example:
     >>> from gibbs_it import GibbsIT
@@ -24,7 +24,8 @@ Example:
     Gibbs Ion Transport (Na influx: Na+, ∆G = -12.60 kJ/mol)
 """
 
-import math, functools
+import functools
+import math
 from typing import Union
 
 
@@ -45,12 +46,13 @@ class GibbsIT:
         F  - Faraday constant (96.5 kJ/V·mol)
         Vm - membrane potential (V)
 
-    Inputs to `__init__` are expected in SI units (M, V, K).
+    Inputs to `__init__` are expected in the class's standard calculation units:
+    molar (M), volts (V), and Kelvin (K).
     Use the `from_mM_mV` classmethod for more convenient inputs (mM, mV, °C/K as strings or floats).
     """
 
-    R = 8.314e-3  # Gas constant, kJ/mol K
-    F = 96.5  # Faraday constant, kJ/V mol
+    R = 8.314e-3  # Gas constant, kJ·mol⁻¹·K⁻¹
+    F = 96.5  # Faraday constant, kJ·V⁻¹·mol⁻¹
 
     def __init__(
         self,
@@ -64,7 +66,7 @@ class GibbsIT:
         T_K: float = 310.0,
     ) -> None:
         """
-        Initialize a GibbsIT object with SI units.
+        Initialize a GibbsIT object using standard calculation units.
 
         Parameters:
             name (str): Descriptive name of the transport process.
@@ -112,7 +114,8 @@ class GibbsIT:
         T: Union[float, str] = 310,
     ) -> "GibbsIT":
         """
-        Alternate constructor using non-SI units (mM, mV, and °C/K).
+        Alternate constructor accepting concentrations in mM, membrane potential in mV, 
+        and temperature in either Celsius or Kelvin.
 
         Parameters:
             name (str): Descriptive name of the transport process.
@@ -125,7 +128,7 @@ class GibbsIT:
                                         (e.g., '37C', '310K'). Default is 310 K.
 
         Returns:
-            GibbsIT: Instance of GibbsIT with converted SI units.
+            GibbsIT: Instance with concentrations in M, voltage in V, and temperature in K.
         """
         if isinstance(T, str):
             t = T.strip().upper()
@@ -238,18 +241,19 @@ def main():
         ion="Glc", 
         c_origin_M=5, 
         c_dest_M=0.1, 
-        z=1, 
-        Vm=0)
+        z=0, 
+        Vm=0
+    )
     
-    # Example 2: alternate constructor using some common biological unts
+    # Example 2: alternate constructor using some common biological units
     na = GibbsIT.from_mM_mV(
-    name="Na influx",
-    ion="Na+",
-    c_origin_mM=145,
-    c_dest_mM=15,
-    z=1,
-    vm_mV=-70,
-    T="37C",
+        name="Na influx",
+        ion="Na+",
+        c_origin_mM=145,
+        c_dest_mM=15,
+        z=1,
+        vm_mV=-70,
+        T="37C",
     )
 
     print(glucose)
