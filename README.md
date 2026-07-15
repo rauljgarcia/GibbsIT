@@ -4,43 +4,36 @@
 It implements the thermodynamic relationship:
 
 $$
-\[
 \Delta G = RT \ln\left(\frac{C_2}{C_1}\right) + zF\Delta\psi
-\]
 $$
 
-The class provides unit-safe calculations and Pythonic comparison tools for analyzing the energetic favorability of ion movements such as Na⁺ influx or Ca²⁺ efflux in biological systems.
+GibbsIT began as an object-oriented Python exercise and has since evolved into a portfolio project focused on scientific software development. It demonstrates thermodynamic modeling, unit conversion, input validation, and automated testing with pytest.
 
----
+The class provides unit-safe calculations and input validation for analyzing the energetic favorability of ion transport events.
+
 
 ## Features
 
-- Calculates ΔG for ion transport events using the Nernst equation form  
-- Accepts either **SI units (M, V, K)** or **lab-friendly units (mM, mV, °C)** via an alternate constructor  
+- Calculates Gibbs free energy (ΔG) for ion transport across biological membranes
+- Accepts either the class's standard calculation units **(M, V, K)** or common biological units **(mM, mV, °C)** via an alternate constructor  
 - Built-in validation checks for realistic physiological values  
-- Operator overloading:
-  - `__lt__` → Compare ΔG values (`<`, `>`)
-  - `__eq__` → Check energetic equivalence
-  - `__add__` → Combine ΔG values for multiple ion events
 - Designed for readability and educational use  
 - Easily extended for batch analyses or plotting
-
----
 
 ## Example Usage
 
 ```python
 from gibbs_it import GibbsIT
 
-# Using SI units directly
+# Using the class's standard calculation units
 na_in = GibbsIT(
     name="Na influx",
     ion="Na+",
     c_origin_M=0.145,
     c_dest_M=0.015,
     z=1,
-    delta_psi_V=-0.07,
-    T_K=310
+    Vm=-0.07,
+    T_K=310.15
 )
 print(na_in)
 # Gibbs Ion Transport (Na influx: Na+, ∆G = -12.60 kJ/mol)
@@ -52,53 +45,64 @@ ca_in = GibbsIT.from_mM_mV(
     c_origin_mM=1.8,
     c_dest_mM=0.0001,
     z=2,
-    delta_psi_mV=-70,
+    vm_mV=-70,
     T="37C"
 )
 print(ca_in)
 # Gibbs Ion Transport (Ca influx: Ca2+, ∆G = -38.76 kJ/mol)
-
-# Compare and add
-if ca_in < na_in:
-    print("Ca influx is more energetically favorable")
-net_energy = ca_in + na_in
-print(f"Combined ΔG = {net_energy:.2f} kJ/mol")
 ```
-Installation
+
+## Testing
+
+The project includes a pytest test suite covering:
+
+- Gibbs free energy (ΔG) calculations
+- Alternate constructor unit conversions
+- Input validation
+- Boundary-condition testing
+
+Run the test suite from the project directory with:
+
+```bash
+python -m pytest -v
+```
+
+## Installation
 
 Clone the repository:
+```bash 
 git clone https://github.com/rauljgarcia/GibbsIT.git
 cd GibbsIT
+```
+Run the examples or execute the test suite from the project directory.
 
-No external dependencies are required beyond the Python standard library.
+The GibbsIT package requires only the Python standard library. Running the test suite additionally requires pytest.
 
-Scientific Background
+## Scientific Background
 
 This project is based on classical thermodynamics applied to biological ion transport.
-The formula used accounts for both:
-	•	Concentration gradient (RT ln(C₂/C₁))
-	•	Membrane potential (zFΔψ)
+The equation includes contributions from:
+- Concentration gradient (RT ln(C₂/C₁))
+- Membrane potential (zFΔψ)
 
-Such calculations are essential for understanding energy requirements in systems like:
-	•	Na⁺/K⁺-ATPase pumps
-	•	Ca²⁺ transport in muscle contraction
-	•	Neuronal membrane potential dynamics
+Such calculations are useful for understanding energy requirements in systems like:
+- Na⁺/K⁺-ATPase pumps
+- Ca²⁺ transport in muscle contraction
+- Neuronal membrane potential dynamics
 
-⸻
 
-Future Enhancements
-	•	Add support for batch calculations using lists or Pandas DataFrames
-	•	Include a plotting module to visualize ΔG vs. ion gradient
-	•	Implement a command-line interface (CLI)
-	•	Add unit tests with pytest
-	•	Optional integration with Jupyter notebooks for teaching demos
+## Future Enhancements
+- Support batch calculations from CSV files
+- Generate plots of ΔG versus membrane potential or concentration ratio
+- Build a simple command-line interface
+- Develop a graphical interface for educational use
 
-⸻
 
-Author
+## Author
 
 Raul Garcia
-Bioinformatics student at the University of Arizona
-Exploring the intersection of programming, biochemistry, and computational modeling.
+
+Bioinformatics graduate interested in computational biology,
+biochemistry, genomics, and scientific software development.
 
 [GitHub Profile](https://github.com/rauljgarcia)
